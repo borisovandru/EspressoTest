@@ -6,19 +6,16 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import com.android.espressotest.BuildConfig
 import com.android.espressotest.R
 import com.android.espressotest.model.SearchResult
 import com.android.espressotest.presenter.RepositoryContract
 import com.android.espressotest.presenter.search.PresenterSearchContract
 import com.android.espressotest.presenter.search.SearchPresenter
 import com.android.espressotest.repository.FakeGitHubRepository
-import com.android.espressotest.repository.GitHubApi
-import com.android.espressotest.repository.GitHubRepository
 import com.android.espressotest.view.details.DetailsActivity
+import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
 class MainActivity : AppCompatActivity(), ViewSearchContract {
@@ -66,13 +63,8 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
         })
     }
 
-    private fun createRepository(): RepositoryContract {
-        return if (BuildConfig.TYPE == FAKE) {
-            FakeGitHubRepository()
-        } else {
-            GitHubRepository(createRetrofit().create(GitHubApi::class.java))
-        }
-    }
+    private fun createRepository(): RepositoryContract =
+        FakeGitHubRepository()
 
     private fun createRetrofit(): Retrofit {
         return Retrofit.Builder()
